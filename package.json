@@ -1,0 +1,28 @@
+{
+  "name": "db_project",
+  "version": "1.0.0",
+  "description": "Simple site to store user info and display it",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anipara/db_project.git"
+  },
+  "author": "Anish Parasrampuria",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anipara/db_project/issues"
+  },
+  "homepage": "https://github.com/anipara/db_project#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "uuid": "^8.1.0"
+  }
+}
