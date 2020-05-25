@@ -1,12 +1,13 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const db = require('./connection');
+const people = require('./routes/api/people');
 const bodyParser = require('body-parser');
-// const db = require('./connection');
+
 const PORT = process.env.PORT || 3000;
 // ---------------------------------------
 
-// This is the main app object
+// starts express application
 const app = express();
 
 // Handlebars middleware
@@ -15,15 +16,16 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 // Body Parser middleware
-// handles raw json
-app.use(bodyParser.json());
-// this handles for submissions
-app.use(bodyParser.urlencoded({ extended: false }));
+// handles raw json posts
+// app.use(bodyParser.json());
+// this handles for url encoded posts 
+app.use(bodyParser.urlencoded({ extended: true }));
 
+app.listen(PORT, () => console.log("Server listening on port 3000"));
 // ---------------------------------------
 
 
-// create db
+// create db 
 app.get('/createdb', (req, res) => {
     console.log('in create db');
     let sql = 'CREATE DATABASE peopledb';
@@ -53,7 +55,7 @@ app.get('/createpeopletable', (req, res) => {
 
 
 // people api route
-app.use("/api/people", require('./routes/api/people'));
+app.use("/api/people", people);
 
 
 // route for home page
@@ -62,6 +64,4 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.listen(PORT, () => console.log("Server listening on port 3000"));
-
-module.exports = app;
+module.exports = app;   

@@ -1,22 +1,26 @@
 const express = require('express');
 const mysql = require('mysql');
-const app = require('../../app');
-const uuid = require('uuid');
 const db = require('../../connection');
+// const bodyParser = require('body-parser');
+
 
 // used to route calls specific to people
 const router = express.Router();
+// router.use(bodyParser.json());
+// this handles for submissions 
+// router.use(bodyParser.urlencoded({ extended: true }));
 
-
-// add people
 router.post('/addPerson', (req, res) => {
-
-    console.log(req.originalUrl)
+    console.log(req.headers);
     let person = {
-        name: req.params.name,
-        email: req.params.email,
-        job: req.params.job
+        name: req.body.name,
+        email: req.body.email,
+        job: req.body.job
     };
+    console.log('----------------');
+    console.log(req.body);
+    console.log('----------------');
+    console.log(person);
     let sql = 'INSERT INTO people SET ?';
     console.log("THE query is: " + sql);
     // the question mark is a place holder for the second args in db.query
