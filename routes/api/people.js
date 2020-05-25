@@ -1,7 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
 const db = require('../../connection');
-// const bodyParser = require('body-parser');
 
 
 // used to route calls specific to people
@@ -29,7 +28,7 @@ router.post('/addPerson', (req, res) => {
             console.log(err);
         } else {
             console.log(result);
-            res.send('Person added');
+            res.redirect('/');
         }
     });
 })

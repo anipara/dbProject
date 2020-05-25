@@ -34,10 +34,23 @@ app.get('/createdb', (req, res) => {
             console.log(err);
         } else {
             console.log(result);
-            res.send('DB created... ');
+            res.redirect('/');
         }
     });
 });
+
+app.get('/deletedb', (req, res) => {
+    console.log('in deletedb');
+    let sql = 'DROP DATABASE IF EXISTS peopledb';
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result);
+            res.redirect('/');
+        }
+    });
+})
 
 
 // create table
@@ -48,7 +61,7 @@ app.get('/createpeopletable', (req, res) => {
             console.log(err);
         } else {
             console.log(result);
-            res.send('People table created');
+            res.redirect('/');
         }
     })
 });
