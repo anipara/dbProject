@@ -9,29 +9,54 @@ const router = express.Router();
 // this handles for submissions 
 // router.use(bodyParser.urlencoded({ extended: true }));
 
-router.post('/addPerson', (req, res) => {
-    console.log(req.headers);
+router.post('/addPerson', async (req, res) => {
     let person = {
         name: req.body.name,
         email: req.body.email,
         job: req.body.job
     };
-    console.log('----------------');
-    console.log(req.body);
-    console.log('----------------');
-    console.log(person);
-    let sql = 'INSERT INTO people SET ?';
-    console.log("THE query is: " + sql);
-    // the question mark is a place holder for the second args in db.query
-    let query = db.query(sql, person, (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(result);
-            res.redirect('/');
-        }
-    });
-})
+    let validPerson = await checkPerson(person);
+    if (validPerson) {
+        let sql = 'INSERT INTO people SET ?';
+        // the question mark is a place holder for the second args in db.query
+        let query = db.query(sql, person, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect('/');
+            }
+        });
+    } else {
+        // redirects to error page when person entered is already in db
+        res.redirect('/api/people/error');
+    }
+});
 
+router.get('/error', (req, res) => {
+    res.render('error');
+});
+
+
+async function checkPerson(person) {
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT * FROM people
+               WHERE name = '${person.name}' AND
+                   email = '${person.email}' AND
+                   job = '${person.job}'`;
+        let query = db.query(sql, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // checks if there is result set > 0 meaning the 
+                // person already exists in db 
+                if (result.length > 0) {
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+            }
+        });
+    });
+}
 
 module.exports = router; 
