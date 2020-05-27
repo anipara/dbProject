@@ -15,6 +15,7 @@ router.post('/addPerson', async (req, res) => {
         email: req.body.email,
         job: req.body.job
     };
+    // checks if person already in db or not
     let validPerson = await checkPerson(person);
     if (validPerson) {
         let sql = 'INSERT INTO people SET ?';
@@ -58,7 +59,21 @@ router.get('/error', (req, res) => {
     res.render('error');
 });
 
+// Displays all poeple in db
+router.post('/displayPeople', (req, res) => {
+    const sql = `SELECT * FROM people`
+    let query = db.query(sql, (err, result) => {
+        if (err) { console.log(err); }
+        else {
+            console.log('rendering page');
+            console.log(result);
+            res.render('people', { result: result });
+        }
+    })
+})
 
+// This func has to be async bc we want to wait for the response from this func before
+// moving on in my addPerson method
 async function checkPerson(person) {
     return new Promise((resolve, reject) => {
         let sql = `SELECT * FROM people

@@ -1,0 +1,10 @@
+<h1>This page contains all the people in the db</h1>
+<form class="form-group" action="/">
+    <button type="submit" formaction="/" class="btn btn-primary">Back to home</button>
+</form>
+<h3 class="mt-4">People:</h3>
+<ul class="list-group">
+    {{#each result}}
+    <li class="list-group-item">{{this.name}} : {{this.email}} : {{this.job}}</li>
+    {{/each}}
+</ul>
