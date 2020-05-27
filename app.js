@@ -66,6 +66,19 @@ app.get('/createpeopletable', (req, res) => {
     })
 });
 
+// clear table
+app.post('/cleartable', (req, res) => {
+    console.log('in clear table');
+    let sql = `DELETE FROM people`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('emptyTable')
+        }
+    })
+})
+
 
 // people api route
 app.use("/api/people", people);
