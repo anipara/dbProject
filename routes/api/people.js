@@ -23,12 +23,34 @@ router.post('/addPerson', async (req, res) => {
             if (err) {
                 console.log(err);
             } else {
+                console.log('added person');
                 res.redirect('/');
             }
         });
     } else {
         // redirects to error page when person entered is already in db
         res.redirect('/api/people/error');
+    }
+});
+
+router.post('/deletePerson', (req, res) => {
+    console.log('in delte');
+    // checks if all args are passed
+    if (req.body.name && req.body.email && req.body.job) {
+        let sql = `DELETE FROM people
+                WHERE name = '${req.body.name}' AND
+                 email = '${req.body.email}' AND
+                 job = '${req.body.job}' `;
+        let query = db.query(sql, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(result);
+                res.redirect('/');
+            }
+        });
+    } else {
+        res.redirect('/');
     }
 });
 
