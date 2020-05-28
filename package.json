@@ -21,11 +21,19 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.5.0",
+    "flash": "^1.1.0",
     "formidable": "^1.2.2",
     "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "session": "^0.1.0",
     "uuid": "^8.1.0"
   }
 }
