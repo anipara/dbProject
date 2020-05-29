@@ -93,7 +93,7 @@ app.get('/deletedb', (req, res) => {
 
 // create table
 app.get('/createpeopletable', (req, res) => {
-    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
+    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255),password VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -126,15 +126,46 @@ app.use("/api/people", people);
 app.get('/home', (req, res) => {
     res.render('home');
 })
+app.post('/register', (req, res) => {
+    console.log('in post');
+    const { name, email, password, password2 } = req.body;
+    let errors = [];
+    console.log(name, email, password, password2);
+
+    if (!name || !email || !password || !password2) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
+
+    if (password != password2) {
+        errors.push({ msg: 'Passwords do not match' });
+    }
+
+    if (errors.length > 0) {
+        res.render('register', {
+            errors,
+            name,
+            email,
+            password,
+            password2
+        });
+    } else {
+        res.send('pass');
+    }
+});
 
 app.get('/register', (req, res) => {
+    console.log('in get');
     res.render('register');
 })
 
+
 app.get('/', (req, res) => {
-    res.render('login');
+    res.render('welcome');
 })
 
+app.get('/login', (req, res) => {
+    res.render('login');
+})
 
 
 const PORT = process.env.PORT || 3000;
