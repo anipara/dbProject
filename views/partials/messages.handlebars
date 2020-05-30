@@ -1,0 +1,6 @@
+{{!-- a piece of markup some html that we need to insert into another file like handlebars --}}
+<ul class="list-group">
+    {{#each errors}}
+    <li class="list-group-item list-group-item-danger">{{this.msg}} </li>
+    {{/each}}
+</ul>

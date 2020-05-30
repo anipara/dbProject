@@ -21,47 +21,11 @@ app.set('view engine', 'handlebars');
 // Body Parser middleware 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser())
-
-// // Express Session
-// app.use(session({
-//     secret: 'secret',
-//     saveUninitialized: true,
-//     resave: true
-// }));
-
-// Passport init
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// // Express Validator
-// app.use(expressValidator({
-//     errorFormatter: (param, msg, value) => {
-//         var namespace = param.split('.'),
-//             root = namespace.shift(),
-//             formParam = root;
-//         while (namespace.length) {
-//             formParam += '[' + namespace.shift() + ']';
-//         }
-//         return {
-//             param: formParam,
-//             msg,
-//             value
-//         };
-//     }
-// }));
-
-// // Connect flash
-// app.use(flash());
-
-// // Global Variables
-// app.use((req, res) => {
-//     res.locals.success_msg = req.flash('success_msg');
-//     res.locals.error_msg = req.flash('error_msg');
-//     res.locals.error = req.flash('error');
-// });
-
+app.use(cookieParser());
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// people api route
+app.use("/api/people", people);
+
 
 // create db 
 app.get('/createdb', (req, res) => {
@@ -93,7 +57,7 @@ app.get('/deletedb', (req, res) => {
 
 // create table
 app.get('/createpeopletable', (req, res) => {
-    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255),password VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
+    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255),password VARCHAR(255), password2 VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -118,46 +82,11 @@ app.post('/cleartable', (req, res) => {
 })
 
 
-// people api route
-app.use("/api/people", people);
-
 
 // route for home page
 app.get('/home', (req, res) => {
     res.render('home');
 })
-app.post('/register', (req, res) => {
-    console.log('in post');
-    const { name, email, password, password2 } = req.body;
-    let errors = [];
-    console.log(name, email, password, password2);
-
-    if (!name || !email || !password || !password2) {
-        errors.push({ msg: 'Please enter all fields' });
-    }
-
-    if (password != password2) {
-        errors.push({ msg: 'Passwords do not match' });
-    }
-
-    if (errors.length > 0) {
-        res.render('register', {
-            errors,
-            name,
-            email,
-            password,
-            password2
-        });
-    } else {
-        res.send('pass');
-    }
-});
-
-app.get('/register', (req, res) => {
-    console.log('in get');
-    res.render('register');
-})
-
 
 app.get('/', (req, res) => {
     res.render('welcome');

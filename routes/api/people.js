@@ -13,7 +13,9 @@ router.post('/addPerson', async (req, res) => {
     let person = {
         name: req.body.name,
         email: req.body.email,
-        job: req.body.job
+        job: req.body.job,
+        password: req.body.password,
+        password2: req.body.password2
     };
     // checks if person already in db or not
     let validPerson = await checkPerson(person);
@@ -72,6 +74,45 @@ router.post('/displayPeople', (req, res) => {
     })
 })
 
+router.post('/register', (req, res) => {
+    console.log('in post');
+    const { name, email, job, password, password2 } = req.body;
+    let errors = [];
+    console.log(name, email, job, password, password2);
+
+    if (!name || !email || !password || !password2 || !job) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
+
+    if (password.length < 6) {
+        errors.push({ msg: 'Password too short' });
+    }
+
+    if (password != password2) {
+        errors.push({ msg: 'Passwords do not match' });
+    }
+
+    if (errors.length > 0) {
+        res.render('register', {
+            errors,
+            name,
+            email,
+            job,
+            password,
+            password2
+        });
+    } else {
+        // Validation passed
+        res.send('passssssssssss');
+
+    }
+});
+
+router.get('/registerView', (req, res) => {
+    console.log('in get');
+    res.render('register');
+})
+
 // This func has to be async bc we want to wait for the response from this func before
 // moving on in my addPerson method
 async function checkPerson(person) {
@@ -95,5 +136,6 @@ async function checkPerson(person) {
         });
     });
 }
+
 
 module.exports = router; 
