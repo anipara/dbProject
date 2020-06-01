@@ -125,10 +125,12 @@ router.post('/register', async (req, res) => {
                         const passHash = hash;
                         let added = await addPerson(name, email, job, passHash);
                         if (added) {
-                            console.log('person added');
-                            res.render('login', { email });
+                            // we can access the global var defined in app.js
+                            req.flash('success_msg', 'You are now registered and can log in');
+                            res.render('login', { email: email });
                         } else {
-                            console.log('person no added');
+                            req.flash('error_msg', 'You were not able to register. Please try again');
+                            res.redirect('/register');
                         }
                     }
                 })
@@ -141,6 +143,8 @@ router.get('/registerView', (req, res) => {
     console.log('in get');
     res.render('register');
 })
+
+
 
 // --------------------------------------------------------------------------------
 async function addPerson(name, email, job, password) {

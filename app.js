@@ -1,5 +1,5 @@
 const express = require('express');
-const exphbs = require('express-handlebars');
+const expressLayouts = require('express-ejs-layouts');
 const db = require('./connection');
 const people = require('./routes/api/people');
 const bodyParser = require('body-parser');
@@ -14,20 +14,41 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // Handlebars middleware
-// this sets the view engine to handlebars
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
+// this sets the view engine to handlebars 
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
 
 // Body Parser middleware 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Express Session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+}));
+
+
+// Connect flash 
+app.use(flash());
+
+// GLOBAL VARIABLES
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
+});
+
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // people api route
 app.use("/api/people", people);
 
 
-// create db 
+// create db
 app.get('/createdb', (req, res) => {
     console.log('in create db');
     let sql = 'CREATE DATABASE peopledb';
@@ -99,4 +120,4 @@ app.get('/login', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server listening on port 3000"));
-module.exports = app;   
+module.exports = app;

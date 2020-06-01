@@ -1,0 +1,10 @@
+<!-- a piece of markup some html that we need to insert into another file like handlebars  -->
+<% if(typeof errors != 'undefined'){ %>
+<ul class="list-group">
+    <% errors.forEach((error) => { %>
+    <li class="list-group-item list-group-item-danger">
+        <%= error.msg %>
+    </li>
+    <% }); %>
+</ul>
+<% } %>
