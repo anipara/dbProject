@@ -57,7 +57,7 @@ app.get('/deletedb', (req, res) => {
 
 // create table
 app.get('/createpeopletable', (req, res) => {
-    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255),password VARCHAR(255), password2 VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
+    let sql = `CREATE TABLE people (id int AUTO_INCREMENT, name VARCHAR(255),password VARCHAR(255), job VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id))`;;
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -69,7 +69,7 @@ app.get('/createpeopletable', (req, res) => {
 });
 
 // clear table
-app.post('/cleartable', (req, res) => {
+app.get('/cleartable', (req, res) => {
     console.log('in clear table');
     let sql = `DELETE FROM people`;
     db.query(sql, (err, result) => {
