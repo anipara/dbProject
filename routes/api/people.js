@@ -28,7 +28,6 @@ router.post('/addPerson', async (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log('added person');
                 res.redirect('/');
             }
         });
@@ -39,7 +38,6 @@ router.post('/addPerson', async (req, res) => {
 });
 
 router.post('/deletePerson', (req, res) => {
-    console.log('in delte');
     // checks if all args are passed
     if (req.body.name && req.body.email && req.body.job) {
         let sql = `DELETE FROM people
@@ -50,7 +48,6 @@ router.post('/deletePerson', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log(result);
                 res.redirect('/');
             }
         });
@@ -66,8 +63,6 @@ router.post('/displayPeople', (req, res) => {
     let query = db.query(sql, (err, result) => {
         if (err) { console.log(err); }
         else {
-            console.log('rendering page');
-            console.log(result);
             res.render('people', { result: result });
         }
     })
@@ -76,10 +71,8 @@ router.post('/displayPeople', (req, res) => {
 // -----------------------------------------------------------------------------------------------------
 // Register routes
 router.post('/register', async (req, res) => {
-    console.log('in post');
     const { name, email, job, password, password2 } = req.body;
     let errors = [];
-    console.log(name, email, job, password, password2);
 
     if (!name || !email || !password || !password2 || !job) {
         errors.push({ msg: 'Please enter all fields' });
@@ -94,7 +87,6 @@ router.post('/register', async (req, res) => {
     }
 
     if (errors.length > 0) {
-        console.log(errors);
         res.render('register', {
             errors,
             name,
@@ -141,7 +133,6 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/registerView', (req, res) => {
-    console.log('in get');
     res.render('register');
 });
 // -----------------------------------------------------------------------------------------------------
@@ -153,10 +144,19 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
+
 router.get('/login', (req, res) => {
     res.render('login');
 });
 
+// -----------------------------------------------------------------------------------------------------
+// Logout routes
+
+router.get('/logout', (req, res) => {
+    req.logOut();
+    let success_msg = 'You have logged out';
+    res.render('login', { success_msg });
+});
 
 
 
