@@ -13,6 +13,9 @@ const cookieParser = require('cookie-parser');
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const app = express();
 
+// Passport config
+require('./config/passport')(passport);
+
 // Handlebars middleware
 // this sets the view engine to handlebars 
 app.use(expressLayouts);
@@ -30,6 +33,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect flash 
 app.use(flash());

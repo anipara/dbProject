@@ -2,13 +2,15 @@ const express = require('express');
 const mysql = require('mysql');
 const db = require('../../connection');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 
 // used to route calls specific to people
 const router = express.Router();
-// router.use(bodyParser.json());
-// this handles for submissions 
-// router.use(bodyParser.urlencoded({ extended: true }));
+
+router.get('/error', (req, res) => {
+    res.render('error');
+});
 
 router.post('/addPerson', async (req, res) => {
     let person = {
@@ -57,9 +59,6 @@ router.post('/deletePerson', (req, res) => {
     }
 });
 
-router.get('/error', (req, res) => {
-    res.render('error');
-});
 
 // Displays all poeple in db
 router.post('/displayPeople', (req, res) => {
@@ -74,6 +73,8 @@ router.post('/displayPeople', (req, res) => {
     })
 })
 
+// -----------------------------------------------------------------------------------------------------
+// Register routes
 router.post('/register', async (req, res) => {
     console.log('in post');
     const { name, email, job, password, password2 } = req.body;
@@ -142,11 +143,26 @@ router.post('/register', async (req, res) => {
 router.get('/registerView', (req, res) => {
     console.log('in get');
     res.render('register');
-})
+});
+// -----------------------------------------------------------------------------------------------------
+// Login routes
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/home',
+        failureRedirect: '/api/people/login',
+        failureFlash: true
+    })(req, res, next);
+});
+router.get('/login', (req, res) => {
+    res.render('login');
+});
+
+
 
 
 
 // --------------------------------------------------------------------------------
+// Functions
 async function addPerson(name, email, job, password) {
     return new Promise((resolve, reject) => {
         let person = { name, email, job, password };
