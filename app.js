@@ -7,8 +7,7 @@ const passport = require('passport');
 const LocalStorage = require('passport-local').Strategy;
 const session = require('express-session');
 const expressValidator = require('express-validator');
-const flash = require('flash');
-const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const app = express();
@@ -24,7 +23,7 @@ app.set('view engine', 'ejs');
 // Body Parser middleware 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser('keyboard cat'));
 
 // Express Session
 app.use(session({
@@ -41,13 +40,12 @@ app.use(passport.session());
 app.use(flash());
 
 // GLOBAL VARIABLES
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
     next();
 });
-
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // people api route
@@ -119,9 +117,7 @@ app.get('/', (req, res) => {
     res.render('welcome');
 })
 
-app.get('/login', (req, res) => {
-    res.render('login');
-})
+
 
 
 const PORT = process.env.PORT || 3000;

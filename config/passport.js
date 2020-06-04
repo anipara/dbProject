@@ -20,8 +20,8 @@ module.exports = (passport) => {
                     console.log(result);
                     if (!(result === undefined || result.length == 0)) {
                         // Match Password
-                        console.log('HERE ' + password.toString() + ' ' + result.password);
-                        bcrypt.compare(password.toString(), result.password, (err, isMatch) => {
+                        console.log('HERE ' + password.toString() + ' ' + result[0].password);
+                        bcrypt.compare(password.toString(), result[0].password, (err, isMatch) => {
                             if (err) {
                                 throw (err);
                             } else if (isMatch) {

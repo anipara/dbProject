@@ -94,6 +94,7 @@ router.post('/register', async (req, res) => {
     }
 
     if (errors.length > 0) {
+        console.log(errors);
         res.render('register', {
             errors,
             name,
@@ -127,10 +128,9 @@ router.post('/register', async (req, res) => {
                         let added = await addPerson(name, email, job, passHash);
                         if (added) {
                             // we can access the global var defined in app.js
-                            req.flash('success_msg', 'You are now registered and can log in');
-                            res.render('login', { email: email });
+                            let success_msg = 'Registration Successfull. Please log in';
+                            res.render('login', { email, success_msg });
                         } else {
-                            req.flash('error_msg', 'You were not able to register. Please try again');
                             res.redirect('/register');
                         }
                     }
