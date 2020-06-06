@@ -4,7 +4,6 @@ const db = require('../../connection');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
-
 // used to route calls specific to people
 const router = express.Router();
 
@@ -139,7 +138,7 @@ router.get('/registerView', (req, res) => {
 // Login routes
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/home',
+        successRedirect: '/blogPage',
         failureRedirect: '/api/people/login',
         failureFlash: true
     })(req, res, next);
@@ -225,8 +224,5 @@ async function checkEmail(email) {
         });
     });
 }
-
-
-
 
 module.exports = router; 

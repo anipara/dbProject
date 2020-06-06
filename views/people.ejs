@@ -4,7 +4,9 @@
 </form>
 <h3 class="mt-4">People:</h3>
 <ul class="list-group">
-    {{#each result}}
-    <li class="list-group-item">{{this.name}} : {{this.email}} : {{this.job}}</li>
-    {{/each}}
+    <% result.forEach((res) => { %>
+    <li class="list-group-item">
+        <%=res.name%> : <%=res.email%> : <%=res.job%>
+    </li>
+    <% }); %>
 </ul>

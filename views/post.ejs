@@ -1,0 +1,31 @@
+<!-- Code from traversy media -->
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body">
+            <h1 class="text-center mb-3">
+                <i class="fas fa-user-plus"></i> Create a Post
+            </h1>
+            <form action="/api/people/createPost" method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title of Post"
+                        value="<%= typeof title != 'undefined' ? title : '' %>" />
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" class="form-control" placeholder="Enter author's name"
+                        value="<%= typeof author != 'undefined' ? author : '' %>" />
+                </div>
+                <div class="form-group">
+                    <label for="content">Conetent</label>
+                    <input type="text" id="content" name="content" class="form-control" placeholder="Enter Occupation"
+                        value="<%= typeof content != 'undefined' ? content : '' %>" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    create
+                </button>
+            </form>
+            <p class="lead mt-4">Have An Account? <a href="/api/people/login">Login</a></p>
+        </div>
+    </div>
+</div>
