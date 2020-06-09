@@ -5,7 +5,7 @@
             <h1 class="text-center mb-3">
                 <i class="fas fa-user-plus"></i> Create a Post
             </h1>
-            <form action="/api/posts/createPost" method="POST">
+            <form action="/api/posts/createPost" method="POST" id="post_form">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" id="title" name="title" class="form-control" placeholder="Enter Title of Post"
@@ -17,9 +17,11 @@
                         value="<%= typeof author != 'undefined' ? author : '' %>" />
                 </div>
                 <div class="form-group">
-                    <label for="content">Conetent</label>
-                    <input type="text" id="content" name="content" class="form-control" placeholder="Enter Occupation"
-                        value="<%= typeof content != 'undefined' ? content : '' %>" />
+                    <label for="content">Content</label>
+                    <textarea class="form-control" id="content" name="content" cols="40" rows="5"
+                        placeholder="Enter Occupation">
+                        <%= typeof content != 'undefined' ? content : '' %>
+                    </textarea>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">
                     create

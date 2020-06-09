@@ -132,14 +132,15 @@ app.get('/createpoststable', (req, res) => {
 // route for home page
 app.get('/blogPage', ensureAuthenticated, async (req, res) => {
     let posts = await getAllPosts();
-    res.render('blogHome', { posts: posts });
+    console.log(typeof getAllPosts)
+    res.render('blogHome', { posts });
 })
 
 app.get('/', (req, res) => {
     res.render('welcome');
 })
 
-async function getAllPosts() {
+const getAllPosts = async function () {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT * FROM posts';
         db.query(sql, (err, result) => {
@@ -153,9 +154,6 @@ async function getAllPosts() {
     })
 }
 
-
-
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server listening on port 3000"));
-module.exports = app;
+module.exports.getAllPosts = getAllPosts;  
