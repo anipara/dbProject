@@ -132,7 +132,7 @@ app.get('/createpoststable', (req, res) => {
 // route for home page
 app.get('/blogPage', ensureAuthenticated, async (req, res) => {
     let posts = await getAllPosts();
-    res.render('blogHome', { posts });
+    res.render('blogHome', { posts: posts });
 })
 
 app.get('/', (req, res) => {
@@ -147,18 +147,6 @@ async function getAllPosts() {
                 console.log('Error in getAllPosts is:\n ' + err);
                 reject(err);
             } else {
-                console.log(result);
-                let res = [];
-                // result.forEach(curr => {
-                //     let post = {
-                //         author: curr.author,
-                //         title: curr.title,
-                //         content: curr.content
-                //     }
-                //     console.log('each post is ' + post);
-                //     res.push(curr);
-                // })
-                // console.log('ppppppppppppppppp\n ' + res);
                 resolve(result);
             }
         })

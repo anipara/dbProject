@@ -1,6 +1,9 @@
 <h1>Welcome to the blog</h1>
 <%- include ("../views/partials/messages.ejs") %>
-<button formmethod="GET" formaction="/api/posts/postForm" class="btn btn-secondary">Create Post</button>
+<form method="GET">
+    <button formaction="/api/posts/postForm" class="btn btn-secondary">Create Post</button>
+    <button formaction="/api/people/logout" class="btn btn-secondary">Logout</button>
+</form>
 
 <% for ( let i = posts.length-1 ; i >= 0 ; i-- ) { %>
 <article class="media content-section">
